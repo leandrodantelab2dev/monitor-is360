@@ -33,9 +33,11 @@ module.exports = function () {
 
   this.on('syncInventory', async () => {
     const packages = await sapClient.getPackages()
-    const allIflows = await sapClient.getIflows()
     const syncedAt = new Date().toISOString()
 
+    // ponytail: /IntegrationDesigntimeArtifacts nao aceita GET sem $filter (o CPI responde 501),
+    // entao busca os iFlows pacote a pacote em vez de uma unica chamada sem filtro.
+    const allIflows = []
     for (const pkg of packages) {
       const tags = await sapClient.getPackageTags(pkg.Id)
       await UPSERT.into(Packages).entries({
@@ -46,6 +48,7 @@ module.exports = function () {
         tags,
         syncedAt
       })
+      allIflows.push(...await sapClient.getIflows(pkg.Id))
     }
 
     for (const iflow of allIflows) {

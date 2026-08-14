@@ -17,7 +17,7 @@ function loadConfig() {
     tokenUrl: process.env.CPI_TOKEN_URL || file.tokenUrl,
     baseUrl: process.env.CPI_BASE_URL || file.baseUrl
   }
-  const missing = Object.entries(cfg).filter(([, v]) => !v).map(([k]) => k)
+  const missing = Object.entries(cfg).filter(([, v]) => !v || v.includes('[PREENCHER')).map(([k]) => k)
   if (missing.length) {
     throw new Error(`Configuracao do CPI incompleta (faltando: ${missing.join(', ')}). Preencha default-env.json (bloco "CPI") ou as variaveis de ambiente CPI_CLIENT_ID/CPI_CLIENT_SECRET/CPI_TOKEN_URL/CPI_BASE_URL.`)
   }
@@ -73,10 +73,11 @@ async function getPackageTags(packageId) {
   return results.filter(Boolean).join(' | ')
 }
 
+// ponytail: o Management API responde 501 no GET direto de /IntegrationDesigntimeArtifacts
+// (com ou sem $filter); a rota suportada e via navigation property do pacote.
 async function getIflows(packageId) {
   const cfg = loadConfig()
-  const filter = packageId ? `?$filter=PackageId eq '${encodeURIComponent(packageId)}'` : ''
-  const body = await request(cfg, `/IntegrationDesigntimeArtifacts${filter}`)
+  const body = await request(cfg, `/IntegrationPackages('${encodeURIComponent(packageId)}')/IntegrationDesigntimeArtifacts`)
   return body.d.results
 }
 

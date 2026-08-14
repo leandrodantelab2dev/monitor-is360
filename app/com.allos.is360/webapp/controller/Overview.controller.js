@@ -48,7 +48,7 @@ sap.ui.define(["./BaseController", "sap/ui/model/json/JSONModel", "sap/m/Message
 				const oCounts = { verde: 0, amarelo: 0, vermelho: 0 };
 				aAnalyzed.forEach(oIflow => { if (oCounts[oIflow.band] !== undefined) oCounts[oIflow.band]++; });
 				const fAvg = aAnalyzed.length
-					? aAnalyzed.reduce((fSum, oIflow) => fSum + (oIflow.score || 0), 0) / aAnalyzed.length
+					? aAnalyzed.reduce((fSum, oIflow) => fSum + (parseFloat(oIflow.score) || 0), 0) / aAnalyzed.length
 					: 0;
 				this.getModel("stats").setData({
 					total: aData.length,

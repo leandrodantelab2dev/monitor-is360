@@ -5,7 +5,7 @@ gen/
 
 .cdsrc-private.json
 default-*.json
-*.sqlite
+*.sqlite*
 
 # MTA
 mta_archives/

@@ -41,8 +41,8 @@
 							<Text text="{categoria}"/>
 							<Text text="{severidade}"/>
 							<ObjectStatus
-								text="{path: 'passed', formatter: 'formatter.passedText'}"
-								state="{path: 'passed', formatter: 'formatter.passedState'}"/>
+								text="{path: 'passed', formatter: 'formatter.passedText', targetType: 'any'}"
+								state="{path: 'passed', formatter: 'formatter.passedState', targetType: 'any'}"/>
 							<Text text="{detalhe}"/>
 						</cells>
 					</ColumnListItem>
