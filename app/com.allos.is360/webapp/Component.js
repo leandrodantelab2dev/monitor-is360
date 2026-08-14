@@ -1,4 +1,4 @@
-sap.ui.define(["sap/ui/core/UIComponent", "sap/ui/Device", "./model/models"], function (UIComponent, Device, models) {
+sap.ui.define(["sap/ui/core/UIComponent", "sap/ui/Device", "sap/ui/model/BindingMode", "./model/models"], function (UIComponent, Device, BindingMode, models) {
 	"use strict";
 
 	return UIComponent.extend("com.allos.is360.Component", {
@@ -9,6 +9,10 @@ sap.ui.define(["sap/ui/core/UIComponent", "sap/ui/Device", "./model/models"], fu
 		init: function () {
 			// call the base component's init function
 			UIComponent.prototype.init.call(this); // create the views based on the url/hash
+
+			// the app is entirely read-only (MonitorService entities are @readonly); force one-way
+			// binding on the default OData model to avoid two-way write-back attempts on load
+			this.getModel().setDefaultBindingMode(BindingMode.OneWay);
 
 			// create the device model
 			this.setModel(models.createDeviceModel(), "device");

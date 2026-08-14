@@ -4,45 +4,75 @@
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
 	xmlns:core="sap.ui.core"
+	xmlns:micro="sap.suite.ui.microchart"
 	core:require="{
 		formatter: 'com/allos/is360/model/formatter'
 	}">
 
-	<Page id="iflowDetailPage" title="{name}" showNavButton="true" navButtonPress=".onNavBack">
-		<headerContent>
-			<Button text="{i18n>btnAnalyze}" icon="sap-icon://validate" press=".onAnalyze"/>
-		</headerContent>
+	<Page id="iflowDetailPage" showNavButton="true" navButtonPress=".onNavBack">
+		<customHeader>
+			<Bar>
+				<contentLeft>
+					<Button icon="sap-icon://nav-back" press=".onNavBack" type="Transparent"/>
+					<Title text="{name}" level="H2" class="sapUiTinyMarginBegin"/>
+				</contentLeft>
+				<contentRight>
+					<Button text="{i18n>btnAnalyze}" icon="sap-icon://validate" press=".onAnalyze" type="Emphasized"/>
+				</contentRight>
+			</Bar>
+		</customHeader>
 		<content>
-			<ObjectHeader
-				title="{name}"
-				number="{score}"
-				numberState="{path: 'band', formatter: 'formatter.bandState'}">
-				<attributes>
-					<ObjectAttribute text="{description}"/>
-				</attributes>
-				<statuses>
-					<ObjectStatus
-						text="{path: 'band', formatter: 'formatter.bandText'}"
-						state="{path: 'band', formatter: 'formatter.bandState'}"/>
-				</statuses>
-			</ObjectHeader>
-			<Table id="resultsTable" items="{results}" noDataText=" ">
+			<Panel class="sapUiResponsiveMargin">
+				<HBox alignItems="Center" wrap="Wrap">
+					<HBox alignItems="Center" class="sapUiMediumMarginEnd sapUiSmallMarginBottom">
+						<micro:RadialMicroChart
+							percentage="{score}"
+							valueColor="{path: 'band', formatter: 'formatter.bandValueColor'}"
+							size="M"
+							class="sapUiSmallMarginEnd"/>
+						<VBox>
+							<ObjectStatus
+								text="{path: 'band', formatter: 'formatter.bandText'}"
+								state="{path: 'band', formatter: 'formatter.bandState'}"
+								class="sapUiTinyMarginBottom"/>
+							<ObjectAttribute text="{description}"/>
+							<ObjectAttribute text="{package/name}"/>
+							<ObjectAttribute text="{version}"/>
+						</VBox>
+					</HBox>
+					<HBox>
+						<VBox alignItems="Center" class="sapUiSmallMarginStart">
+							<ObjectNumber number="{summary>/total}"/>
+							<Text text="{i18n>colRulesTotal}"/>
+						</VBox>
+						<VBox alignItems="Center" class="sapUiSmallMarginStart">
+							<ObjectNumber number="{summary>/passed}" state="Success"/>
+							<Text text="{i18n>colPassed}"/>
+						</VBox>
+						<VBox alignItems="Center" class="sapUiSmallMarginStart">
+							<ObjectNumber number="{summary>/failed}" state="Error"/>
+							<Text text="{i18n>colFailed}"/>
+						</VBox>
+					</HBox>
+				</HBox>
+			</Panel>
+
+			<Table id="resultsTable" class="sapUiResponsiveMargin" noDataText="{i18n>noResultsText}"
+				items="{path: 'results', parameters: {$select: 'ID,ruleId,categoria,severidade,passed,detalhe'}, sorter: {path: 'categoria', group: true}, groupHeaderFactory: '.createGroupHeader'}">
 				<columns>
+					<Column width="3rem"/>
 					<Column><Text text="{i18n>colRule}"/></Column>
-					<Column><Text text="{i18n>colCategory}"/></Column>
 					<Column><Text text="{i18n>colSeverity}"/></Column>
-					<Column><Text text="{i18n>colStatus}"/></Column>
 					<Column><Text text="{i18n>colDetail}"/></Column>
 				</columns>
 				<items>
 					<ColumnListItem>
 						<cells>
+							<core:Icon
+								src="{path: 'passed', formatter: 'formatter.passedIcon', targetType: 'any'}"
+								color="{path: 'passed', formatter: 'formatter.passedIconColor', targetType: 'any'}"/>
 							<Text text="{ruleId}"/>
-							<Text text="{categoria}"/>
-							<Text text="{severidade}"/>
-							<ObjectStatus
-								text="{path: 'passed', formatter: 'formatter.passedText', targetType: 'any'}"
-								state="{path: 'passed', formatter: 'formatter.passedState', targetType: 'any'}"/>
+							<ObjectStatus text="{severidade}" state="{path: 'severidade', formatter: 'formatter.severityState'}"/>
 							<Text text="{detalhe}"/>
 						</cells>
 					</ColumnListItem>

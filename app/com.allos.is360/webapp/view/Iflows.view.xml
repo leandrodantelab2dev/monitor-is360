@@ -9,30 +9,47 @@
 	}">
 
 	<Page id="iflowsPage" title="{i18n>iflowsTitle}" showNavButton="true" navButtonPress=".onNavBack">
-		<headerContent>
-			<Button icon="sap-icon://refresh" tooltip="{i18n>btnRefresh}" press=".onRefresh"/>
-		</headerContent>
+		<subHeader>
+			<Toolbar>
+				<SearchField id="searchField" width="20rem" liveChange=".onSearch" placeholder="{i18n>searchPlaceholder}"/>
+				<ToolbarSpacer/>
+				<Button id="sortButton" icon="sap-icon://sort" text="{i18n>btnSort}" press=".onToggleSort" type="Transparent"/>
+				<Button icon="sap-icon://refresh" tooltip="{i18n>btnRefresh}" press=".onRefresh" type="Transparent"/>
+			</Toolbar>
+		</subHeader>
 		<content>
-			<Table id="iflowsTable" items="{/Iflows}" growing="true" growingScrollToLoad="true" noDataText=" ">
-				<columns>
-					<Column><Text text="{i18n>colName}"/></Column>
-					<Column><Text text="{i18n>colPackage}"/></Column>
-					<Column hAlign="End"><Text text="{i18n>colScore}"/></Column>
-					<Column><Text text="{i18n>colBand}"/></Column>
-				</columns>
+			<IconTabBar id="iconTabBar" select=".onTabSelect" selectedKey="all" expandable="false">
 				<items>
-					<ColumnListItem type="Navigation" press=".onOpenIflow">
-						<cells>
-							<Text text="{name}"/>
-							<Text text="{package/name}"/>
-							<ObjectNumber number="{score}"/>
-							<ObjectStatus
-								text="{path: 'band', formatter: 'formatter.bandText'}"
-								state="{path: 'band', formatter: 'formatter.bandState'}"/>
-						</cells>
-					</ColumnListItem>
+					<IconTabFilter key="all" text="{i18n>tabAll}" count="{counts>/all}"/>
+					<IconTabFilter key="verde" text="{i18n>statVerde}" count="{counts>/verde}" icon="sap-icon://status-positive" iconColor="Positive"/>
+					<IconTabFilter key="amarelo" text="{i18n>statAmarelo}" count="{counts>/amarelo}" icon="sap-icon://status-critical" iconColor="Critical"/>
+					<IconTabFilter key="vermelho" text="{i18n>statVermelho}" count="{counts>/vermelho}" icon="sap-icon://status-negative" iconColor="Negative"/>
 				</items>
-			</Table>
+				<content>
+					<Table id="iflowsTable" items="{/Iflows}" growing="true" growingScrollToLoad="true" noDataText="{i18n>noIflowsText}">
+						<columns>
+							<Column><Text text="{i18n>colName}"/></Column>
+							<Column><Text text="{i18n>colPackage}"/></Column>
+							<Column hAlign="End"><Text text="{i18n>colScore}"/></Column>
+							<Column><Text text="{i18n>colBand}"/></Column>
+						</columns>
+						<items>
+							<ColumnListItem type="Navigation" press=".onOpenIflow">
+								<cells>
+									<Text text="{name}"/>
+									<Text text="{package/name}"/>
+									<ObjectNumber
+										number="{score}"
+										state="{path: 'band', formatter: 'formatter.bandState'}"/>
+									<ObjectStatus
+										text="{path: 'band', formatter: 'formatter.bandText'}"
+										state="{path: 'band', formatter: 'formatter.bandState'}"/>
+								</cells>
+							</ColumnListItem>
+						</items>
+					</Table>
+				</content>
+			</IconTabBar>
 		</content>
 	</Page>
 </mvc:View>

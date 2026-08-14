@@ -2,48 +2,78 @@
 	controllerName="com.allos.is360.controller.Overview"
 	displayBlock="true"
 	xmlns="sap.m"
-	xmlns:mvc="sap.ui.core.mvc">
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:micro="sap.suite.ui.microchart">
 
 	<Page id="overviewPage" title="{i18n>appTitle}">
 		<headerContent>
-			<Button text="{i18n>btnSync}" icon="sap-icon://synchronize" press=".onSync"/>
-			<Button text="{i18n>btnAnalyze}" icon="sap-icon://validate" press=".onAnalyzeAll"/>
+			<Button text="{i18n>btnSync}" icon="sap-icon://synchronize" press=".onSync" type="Transparent"/>
+			<Button text="{i18n>btnAnalyze}" icon="sap-icon://validate" press=".onAnalyzeAll" type="Transparent"/>
 		</headerContent>
 		<content>
-			<VBox class="sapUiMediumMargin" model="stats">
+			<VBox class="sapUiResponsiveMargin">
+
+				<Text text="{stats>/lastSyncText}" class="sapUiTinyMarginBottom sapUiContentPadding"/>
+
+				<MessageStrip
+					visible="{= ${stats>/total} === 0}"
+					showIcon="true"
+					type="Information"
+					text="{i18n>emptyStateText}"
+					class="sapUiSmallMarginBottom sapUiSmallMarginBeginEnd"/>
+
+				<HBox wrap="Wrap" class="sapUiSmallMarginBottom sapUiSmallMarginBeginEnd">
+					<GenericTile header="{i18n>statTotal}" frameType="TwoByOne" press=".onViewIflows" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">
+						<TileContent>
+							<NumericContent value="{stats>/total}" icon="sap-icon://process" withMargin="false"/>
+						</TileContent>
+					</GenericTile>
+
+					<GenericTile header="{i18n>statAvgScore}" frameType="TwoByOne" press=".onViewIflows" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">
+						<TileContent>
+							<NumericContent value="{stats>/avgScore}" valueColor="{stats>/avgScoreColor}" withMargin="false"/>
+						</TileContent>
+					</GenericTile>
+
+					<GenericTile header="{i18n>statVerde}" frameType="TwoByOne" press=".onViewIflows" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">
+						<TileContent>
+							<NumericContent value="{stats>/verde}" valueColor="Good" icon="sap-icon://status-positive" withMargin="false"/>
+						</TileContent>
+					</GenericTile>
+
+					<GenericTile header="{i18n>statAmarelo}" frameType="TwoByOne" press=".onViewIflows" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">
+						<TileContent>
+							<NumericContent value="{stats>/amarelo}" valueColor="Critical" icon="sap-icon://status-critical" withMargin="false"/>
+						</TileContent>
+					</GenericTile>
+
+					<GenericTile header="{i18n>statVermelho}" frameType="TwoByOne" press=".onViewIflows" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">
+						<TileContent>
+							<NumericContent value="{stats>/vermelho}" valueColor="Error" icon="sap-icon://status-negative" withMargin="false"/>
+						</TileContent>
+					</GenericTile>
+				</HBox>
+
 				<HBox wrap="Wrap">
-					<Panel class="sapUiSmallMarginEnd sapUiSmallMarginBottom" width="12rem">
-						<VBox alignItems="Center" class="sapUiSmallMargin">
-							<ObjectNumber number="{stats>/total}"/>
-							<Text text="{i18n>statTotal}"/>
-						</VBox>
+					<Panel headerText="{i18n>chartDistribution}" class="sapUiTinyMarginEnd sapUiSmallMarginBottom" width="22rem">
+						<micro:InteractiveDonutChart class="sapUiSmallMargin">
+							<micro:segments>
+								<micro:InteractiveDonutChartSegment label="{i18n>statVerde}" value="{stats>/verde}" displayedValue="{stats>/verde}" color="Good"/>
+								<micro:InteractiveDonutChartSegment label="{i18n>statAmarelo}" value="{stats>/amarelo}" displayedValue="{stats>/amarelo}" color="Critical"/>
+								<micro:InteractiveDonutChartSegment label="{i18n>statVermelho}" value="{stats>/vermelho}" displayedValue="{stats>/vermelho}" color="Error"/>
+							</micro:segments>
+						</micro:InteractiveDonutChart>
 					</Panel>
-					<Panel class="sapUiSmallMarginEnd sapUiSmallMarginBottom" width="12rem">
-						<VBox alignItems="Center" class="sapUiSmallMargin">
-							<ObjectNumber number="{stats>/avgScore}"/>
-							<Text text="{i18n>statAvgScore}"/>
-						</VBox>
-					</Panel>
-					<Panel class="sapUiSmallMarginEnd sapUiSmallMarginBottom" width="12rem">
-						<VBox alignItems="Center" class="sapUiSmallMargin">
-							<ObjectNumber number="{stats>/verde}" state="Success"/>
-							<Text text="{i18n>statVerde}"/>
-						</VBox>
-					</Panel>
-					<Panel class="sapUiSmallMarginEnd sapUiSmallMarginBottom" width="12rem">
-						<VBox alignItems="Center" class="sapUiSmallMargin">
-							<ObjectNumber number="{stats>/amarelo}" state="Warning"/>
-							<Text text="{i18n>statAmarelo}"/>
-						</VBox>
-					</Panel>
-					<Panel class="sapUiSmallMarginEnd sapUiSmallMarginBottom" width="12rem">
-						<VBox alignItems="Center" class="sapUiSmallMargin">
-							<ObjectNumber number="{stats>/vermelho}" state="Error"/>
-							<Text text="{i18n>statVermelho}"/>
-						</VBox>
+
+					<Panel headerText="{i18n>chartTopRules}" class="sapUiSmallMarginBottom" width="28rem">
+						<micro:ComparisonMicroChart minValue="0" maxValue="{stats>/analisados}" class="sapUiSmallMargin"
+							data="{stats>/topRules}">
+							<micro:data>
+								<micro:ComparisonMicroChartData value="{stats>count}" title="{stats>ruleId}" displayValue="{stats>displayValue}" color="{stats>color}"/>
+							</micro:data>
+						</micro:ComparisonMicroChart>
 					</Panel>
 				</HBox>
-				<Button text="{i18n>btnViewIflows}" press=".onViewIflows" class="sapUiSmallMarginTop" type="Emphasized"/>
 			</VBox>
 		</content>
 	</Page>
