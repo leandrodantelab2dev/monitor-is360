@@ -1,0 +1,177 @@
+{
+  "$schema": "internal://allos/is360-best-practices/v1",
+  "meta": {
+    "nome": "IS360 Best Practices - Allos",
+    "fonte": "Cloud Integration Workbook (Lab2Dev) + App360 Spec",
+    "versao": "1.0.0",
+    "descricao": "Regras de aderencia para iFlows do SAP Integration Suite. Cada regra vira uma funcao pura e testavel. O score de um iFlow e a soma dos pesos das regras aplicaveis que passaram, dividido pela soma dos pesos das aplicaveis, x100."
+  },
+  "score": {
+    "formula": "sum(peso das regras aplicaveis que passaram) / sum(peso das regras aplicaveis) * 100",
+    "faixas": {
+      "verde": { "min": 80, "max": 100, "label": "Aderente" },
+      "amarelo": { "min": 50, "max": 79, "label": "Atencao" },
+      "vermelho": { "min": 0, "max": 49, "label": "Critico" }
+    }
+  },
+  "categorias": [
+    "Governanca",
+    "Nomenclatura",
+    "Tratamento de erro",
+    "Observabilidade",
+    "Configuracao",
+    "Codigo"
+  ],
+  "regras": [
+    {
+      "id": "PKG-01",
+      "nivel": "package",
+      "categoria": "Governanca",
+      "descricao": "Pacote tem descricao clara e nao vazia",
+      "detecta": "IntegrationPackages.ShortText/Description preenchido, min 20 chars",
+      "peso": 3,
+      "severidade": "media",
+      "dica": "Forneca ao pacote uma descricao clara do dominio de negocio."
+    },
+    {
+      "id": "PKG-02",
+      "nivel": "package",
+      "categoria": "Nomenclatura",
+      "descricao": "Pacote nomeado no padrao 'De x Para'",
+      "detecta": "IntegrationPackages.Name casa com regex /.+\\s+x\\s+.+/i",
+      "peso": 2,
+      "severidade": "baixa",
+      "dica": "Adote o padrao 'De x Para' ao nomear o pacote (ex: Salesforce x S4HANA)."
+    },
+    {
+      "id": "PKG-03",
+      "nivel": "package",
+      "categoria": "Governanca",
+      "descricao": "Pacote tem tags preenchidas",
+      "detecta": "Ao menos Products, Keywords e uma entre Countries/Industries/LineOfBusiness preenchidos",
+      "peso": 2,
+      "severidade": "baixa",
+      "dica": "Tags enriquecem semantica e entendimento de negocio."
+    },
+    {
+      "id": "IFL-01",
+      "nivel": "iflow",
+      "categoria": "Governanca",
+      "descricao": "iFlow tem descricao preenchida",
+      "detecta": "IntegrationDesigntimeArtifacts.Description nao vazio",
+      "peso": 3,
+      "severidade": "media",
+      "dica": "Forneca descricao clara ao fluxo, de acordo com o objetivo proposto."
+    },
+    {
+      "id": "IFL-02",
+      "nivel": "iflow",
+      "categoria": "Governanca",
+      "descricao": "Versao segue versionamento semantico",
+      "detecta": "Version casa com regex /^\\d+\\.\\d+\\.\\d+$/",
+      "peso": 1,
+      "severidade": "baixa",
+      "dica": "Use versionamento semantico (major.minor.patch)."
+    },
+    {
+      "id": "BPM-01",
+      "nivel": "iflow",
+      "categoria": "Tratamento de erro",
+      "descricao": "Existe Exception Subprocess quando ha chamada a sistema externo",
+      "detecta": "BPMN .iflw contem errorEventSubProcess; obrigatorio se ha adapter de saida (HTTP/OData/SOAP/etc)",
+      "peso": 10,
+      "severidade": "alta",
+      "dica": "Em todo fluxo com chamada a sistema externo, use Exception Handler (subprocesso de erro)."
+    },
+    {
+      "id": "BPM-02",
+      "nivel": "iflow",
+      "categoria": "Nomenclatura",
+      "descricao": "Nenhum step com nome default",
+      "detecta": "Nenhum step/flow-element com nome casando /^(Content Modifier|Request Reply|Groovy Script|Router|Splitter|Gather|Message Mapping|Filter|Script)( \\d+)?$/",
+      "peso": 6,
+      "severidade": "media",
+      "dica": "Renomeie todos os componentes com nomes semanticos e claros."
+    },
+    {
+      "id": "BPM-03",
+      "nivel": "iflow",
+      "categoria": "Observabilidade",
+      "descricao": "Content Modifier inicial com logs externalizados",
+      "detecta": "Existe content modifier com properties logBody, logHeaders, logProperties externalizadas",
+      "peso": 5,
+      "severidade": "media",
+      "dica": "No inicio do fluxo, declare content modifier com propriedades de log externalizadas."
+    },
+    {
+      "id": "BPM-04",
+      "nivel": "iflow",
+      "categoria": "Observabilidade",
+      "descricao": "Script de Monitor Message Logger presente",
+      "detecta": "Existe script referenciando messageLogFactory.getMessageLog (monitorMessageLogger)",
+      "peso": 3,
+      "severidade": "baixa",
+      "dica": "Adicione logger de monitor message para rastreio no Monitor."
+    },
+    {
+      "id": "BPM-05",
+      "nivel": "iflow",
+      "categoria": "Nomenclatura",
+      "descricao": "Participantes e sistemas renomeados",
+      "detecta": "Nenhum participant com nome casando /^(Participant|Sender|Receiver)( \\d+)?$/",
+      "peso": 3,
+      "severidade": "baixa",
+      "dica": "Nomeie sender/receiver com o sistema real (ex: Salesforce, FAKEAPI)."
+    },
+    {
+      "id": "BPM-06",
+      "nivel": "iflow",
+      "categoria": "Configuracao",
+      "descricao": "Hosts e credenciais externalizados, nada hardcoded",
+      "detecta": "Enderecos/adapters usam {{param}} externalizado; sem URL/usuario/senha literal no .iflw ou parameters.prop",
+      "peso": 6,
+      "severidade": "alta",
+      "dica": "Sempre externalize propriedades de recursos: usuarios, senhas e hosts."
+    },
+    {
+      "id": "BPM-07",
+      "nivel": "iflow",
+      "categoria": "Configuracao",
+      "descricao": "Sem adapter deprecado",
+      "detecta": "Nenhum adapter em lista de descontinuados (config editavel)",
+      "peso": 2,
+      "severidade": "media",
+      "dica": "Substitua adapters deprecados pelos equivalentes suportados."
+    },
+    {
+      "id": "SCR-01",
+      "nivel": "script",
+      "categoria": "Nomenclatura",
+      "descricao": "Scripts Groovy nomeados em camelCase, sem nome default",
+      "detecta": "Nome do .groovy nao casa /^script\\d+/ e segue camelCase",
+      "peso": 3,
+      "severidade": "media",
+      "dica": "Nao crie scripts direto no iFlow (viram script1, script2). Nomeie em camelCase."
+    },
+    {
+      "id": "SCR-02",
+      "nivel": "script",
+      "categoria": "Codigo",
+      "descricao": "Sem import absoluto em scripts Groovy",
+      "detecta": "Nenhum 'import groovy.json.*' ou 'import groovy.xml.*' (wildcard) no .groovy",
+      "peso": 2,
+      "severidade": "baixa",
+      "dica": "Importe pacotes especificos, evite importacoes absolutas como groovy.json.*"
+    },
+    {
+      "id": "SCR-03",
+      "nivel": "script",
+      "categoria": "Codigo",
+      "descricao": "Scripts genericos vivem em Script Collection segregada",
+      "detecta": "Scripts de tratamento de erro/util referenciados de Script Collection, nao so embutidos no iFlow",
+      "peso": 3,
+      "severidade": "media",
+      "dica": "Crie scripts genericos em Script Collection para compartilhar entre iFlows."
+    }
+  ]
+}

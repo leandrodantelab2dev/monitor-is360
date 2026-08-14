@@ -1,0 +1,28 @@
+{
+  "name": "monitor-is360",
+  "version": "1.0.0",
+  "dependencies": {
+    "@sap/cds": "^10",
+    "adm-zip": "^0.5",
+    "fast-xml-parser": "^4"
+  },
+  "devDependencies": {
+    "@cap-js/sqlite": "^3",
+    "cds-plugin-ui5": "^0.17"
+  },
+  "scripts": {
+    "start": "cds-serve",
+    "test": "node --test srv/test/*.test.js"
+  },
+  "private": true,
+  "cds": {
+    "requires": {
+      "db": {
+        "kind": "sqlite",
+        "credentials": {
+          "url": "db/is360.sqlite"
+        }
+      }
+    }
+  }
+}

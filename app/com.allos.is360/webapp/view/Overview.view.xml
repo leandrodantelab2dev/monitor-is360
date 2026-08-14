@@ -1,0 +1,50 @@
+<mvc:View
+	controllerName="com.allos.is360.controller.Overview"
+	displayBlock="true"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc">
+
+	<Page id="overviewPage" title="{i18n>appTitle}">
+		<headerContent>
+			<Button text="{i18n>btnSync}" icon="sap-icon://synchronize" press=".onSync"/>
+			<Button text="{i18n>btnAnalyze}" icon="sap-icon://validate" press=".onAnalyzeAll"/>
+		</headerContent>
+		<content>
+			<VBox class="sapUiMediumMargin" model="stats">
+				<HBox wrap="Wrap">
+					<Panel class="sapUiSmallMarginEnd sapUiSmallMarginBottom" width="12rem">
+						<VBox alignItems="Center" class="sapUiSmallMargin">
+							<ObjectNumber number="{stats>/total}"/>
+							<Text text="{i18n>statTotal}"/>
+						</VBox>
+					</Panel>
+					<Panel class="sapUiSmallMarginEnd sapUiSmallMarginBottom" width="12rem">
+						<VBox alignItems="Center" class="sapUiSmallMargin">
+							<ObjectNumber number="{stats>/avgScore}"/>
+							<Text text="{i18n>statAvgScore}"/>
+						</VBox>
+					</Panel>
+					<Panel class="sapUiSmallMarginEnd sapUiSmallMarginBottom" width="12rem">
+						<VBox alignItems="Center" class="sapUiSmallMargin">
+							<ObjectNumber number="{stats>/verde}" state="Success"/>
+							<Text text="{i18n>statVerde}"/>
+						</VBox>
+					</Panel>
+					<Panel class="sapUiSmallMarginEnd sapUiSmallMarginBottom" width="12rem">
+						<VBox alignItems="Center" class="sapUiSmallMargin">
+							<ObjectNumber number="{stats>/amarelo}" state="Warning"/>
+							<Text text="{i18n>statAmarelo}"/>
+						</VBox>
+					</Panel>
+					<Panel class="sapUiSmallMarginEnd sapUiSmallMarginBottom" width="12rem">
+						<VBox alignItems="Center" class="sapUiSmallMargin">
+							<ObjectNumber number="{stats>/vermelho}" state="Error"/>
+							<Text text="{i18n>statVermelho}"/>
+						</VBox>
+					</Panel>
+				</HBox>
+				<Button text="{i18n>btnViewIflows}" press=".onViewIflows" class="sapUiSmallMarginTop" type="Emphasized"/>
+			</VBox>
+		</content>
+	</Page>
+</mvc:View>

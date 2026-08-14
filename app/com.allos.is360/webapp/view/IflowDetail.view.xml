@@ -1,0 +1,53 @@
+<mvc:View
+	controllerName="com.allos.is360.controller.IflowDetail"
+	displayBlock="true"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	core:require="{
+		formatter: 'com/allos/is360/model/formatter'
+	}">
+
+	<Page id="iflowDetailPage" title="{name}" showNavButton="true" navButtonPress=".onNavBack">
+		<headerContent>
+			<Button text="{i18n>btnAnalyze}" icon="sap-icon://validate" press=".onAnalyze"/>
+		</headerContent>
+		<content>
+			<ObjectHeader
+				title="{name}"
+				number="{score}"
+				numberState="{path: 'band', formatter: 'formatter.bandState'}">
+				<attributes>
+					<ObjectAttribute text="{description}"/>
+				</attributes>
+				<statuses>
+					<ObjectStatus
+						text="{path: 'band', formatter: 'formatter.bandText'}"
+						state="{path: 'band', formatter: 'formatter.bandState'}"/>
+				</statuses>
+			</ObjectHeader>
+			<Table id="resultsTable" items="{results}" noDataText=" ">
+				<columns>
+					<Column><Text text="{i18n>colRule}"/></Column>
+					<Column><Text text="{i18n>colCategory}"/></Column>
+					<Column><Text text="{i18n>colSeverity}"/></Column>
+					<Column><Text text="{i18n>colStatus}"/></Column>
+					<Column><Text text="{i18n>colDetail}"/></Column>
+				</columns>
+				<items>
+					<ColumnListItem>
+						<cells>
+							<Text text="{ruleId}"/>
+							<Text text="{categoria}"/>
+							<Text text="{severidade}"/>
+							<ObjectStatus
+								text="{path: 'passed', formatter: 'formatter.passedText'}"
+								state="{path: 'passed', formatter: 'formatter.passedState'}"/>
+							<Text text="{detalhe}"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</content>
+	</Page>
+</mvc:View>

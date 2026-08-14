@@ -1,0 +1,38 @@
+<mvc:View
+	controllerName="com.allos.is360.controller.Iflows"
+	displayBlock="true"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns:core="sap.ui.core"
+	core:require="{
+		formatter: 'com/allos/is360/model/formatter'
+	}">
+
+	<Page id="iflowsPage" title="{i18n>iflowsTitle}" showNavButton="true" navButtonPress=".onNavBack">
+		<headerContent>
+			<Button icon="sap-icon://refresh" tooltip="{i18n>btnRefresh}" press=".onRefresh"/>
+		</headerContent>
+		<content>
+			<Table id="iflowsTable" items="{/Iflows}" growing="true" growingScrollToLoad="true" noDataText=" ">
+				<columns>
+					<Column><Text text="{i18n>colName}"/></Column>
+					<Column><Text text="{i18n>colPackage}"/></Column>
+					<Column hAlign="End"><Text text="{i18n>colScore}"/></Column>
+					<Column><Text text="{i18n>colBand}"/></Column>
+				</columns>
+				<items>
+					<ColumnListItem type="Navigation" press=".onOpenIflow">
+						<cells>
+							<Text text="{name}"/>
+							<Text text="{package/name}"/>
+							<ObjectNumber number="{score}"/>
+							<ObjectStatus
+								text="{path: 'band', formatter: 'formatter.bandText'}"
+								state="{path: 'band', formatter: 'formatter.bandState'}"/>
+						</cells>
+					</ColumnListItem>
+				</items>
+			</Table>
+		</content>
+	</Page>
+</mvc:View>

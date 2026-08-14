@@ -1,0 +1,17 @@
+{
+  "welcomeFile": "/com.allos.is360/webapp/index.html",
+  "authenticationMethod": "none",
+  "routes": [
+    {
+      "source": "^/odata/v4/monitor/(.*)$",
+      "target": "/odata/v4/monitor/$1",
+      "destination": "srv-api",
+      "csrfProtection": true
+    },
+    {
+      "source": "^(.*)$",
+      "target": "$1",
+      "localDir": "app"
+    }
+  ]
+}
