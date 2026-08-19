@@ -102,7 +102,7 @@
 					"target": "overview"
 				},
 				{
-					"pattern": "iflows{?query}",
+					"pattern": "iflows:?query:",
 					"name": "iflows",
 					"target": "iflows"
 				},
