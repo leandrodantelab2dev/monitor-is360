@@ -3,7 +3,11 @@
 	displayBlock="true"
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
-	xmlns:micro="sap.suite.ui.microchart">
+	xmlns:core="sap.ui.core"
+	xmlns:micro="sap.suite.ui.microchart"
+	core:require="{
+		formatter: 'com/allos/is360/model/formatter'
+	}">
 
 	<Page id="overviewPage" title="{i18n>appTitle}">
 		<headerContent>
@@ -24,31 +28,35 @@
 
 				<HBox wrap="Wrap" class="sapUiSmallMarginBottom sapUiSmallMarginBeginEnd">
 					<GenericTile header="{i18n>statTotal}" frameType="TwoByOne" press=".onViewIflows" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">
-						<TileContent>
+						<TileContent unit="{i18n>unitIflows}">
 							<NumericContent value="{stats>/total}" icon="sap-icon://process" withMargin="false"/>
 						</TileContent>
 					</GenericTile>
 
 					<GenericTile header="{i18n>statAvgScore}" frameType="TwoByOne" press=".onViewIflows" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">
-						<TileContent>
+						<TileContent unit="{i18n>unitScore}" footer="{stats>/scoreMetaText}" footerColor="{stats>/scoreMetaColor}">
 							<NumericContent value="{stats>/avgScore}" valueColor="{stats>/avgScoreColor}" withMargin="false"/>
 						</TileContent>
 					</GenericTile>
 
 					<GenericTile header="{i18n>statVerde}" frameType="TwoByOne" press=".onViewIflows" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">
-						<TileContent>
-							<NumericContent value="{stats>/verde}" valueColor="Good" icon="sap-icon://status-positive" withMargin="false"/>
+						<TileContent unit="{i18n>unitIflows}">
+							<NumericContent
+								value="{stats>/verde}"
+								valueColor="{path: 'stats>/verde', formatter: 'formatter.compliantColor'}"
+								icon="{path: 'stats>/verde', formatter: 'formatter.compliantIcon'}"
+								withMargin="false"/>
 						</TileContent>
 					</GenericTile>
 
 					<GenericTile header="{i18n>statAmarelo}" frameType="TwoByOne" press=".onViewIflows" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">
-						<TileContent>
+						<TileContent unit="{i18n>unitIflows}">
 							<NumericContent value="{stats>/amarelo}" valueColor="Critical" icon="sap-icon://status-critical" withMargin="false"/>
 						</TileContent>
 					</GenericTile>
 
-					<GenericTile header="{i18n>statVermelho}" frameType="TwoByOne" press=".onViewIflows" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">
-						<TileContent>
+					<GenericTile header="{i18n>statVermelho}" frameType="TwoByOne" press=".onViewIflows" class="is360-tile-critical sapUiTinyMarginEnd sapUiTinyMarginBottom">
+						<TileContent unit="{i18n>unitIflows}">
 							<NumericContent value="{stats>/vermelho}" valueColor="Error" icon="sap-icon://status-negative" withMargin="false"/>
 						</TileContent>
 					</GenericTile>
@@ -56,20 +64,32 @@
 
 				<HBox wrap="Wrap">
 					<Panel headerText="{i18n>chartDistribution}" class="sapUiTinyMarginEnd sapUiSmallMarginBottom" width="22rem">
-						<micro:InteractiveDonutChart class="sapUiSmallMargin">
-							<micro:segments>
-								<micro:InteractiveDonutChartSegment label="{i18n>statVerde}" value="{stats>/verde}" displayedValue="{stats>/verde}" color="Good"/>
-								<micro:InteractiveDonutChartSegment label="{i18n>statAmarelo}" value="{stats>/amarelo}" displayedValue="{stats>/amarelo}" color="Critical"/>
-								<micro:InteractiveDonutChartSegment label="{i18n>statVermelho}" value="{stats>/vermelho}" displayedValue="{stats>/vermelho}" color="Error"/>
-							</micro:segments>
-						</micro:InteractiveDonutChart>
+						<VBox>
+							<HBox alignItems="Baseline" wrap="Wrap" class="sapUiSmallMarginBottom">
+								<ObjectNumber number="{stats>/totalAnalisados}" class="is360DonutTotal"/>
+								<Text text="{i18n>chartDistributionTotalLabel}" class="sapUiTinyMarginBegin sapUiSmallMarginEnd"/>
+								<Text text="{stats>/criticalPercentText}" class="is360DonutCriticalPct"/>
+							</HBox>
+							<micro:InteractiveDonutChart class="is360Donut sapUiSmallMargin">
+								<micro:segments>
+									<micro:InteractiveDonutChartSegment label="{i18n>statVermelho}" value="{stats>/vermelho}" displayedValue="{stats>/vermelho}" color="Error"/>
+									<micro:InteractiveDonutChartSegment label="{i18n>statAmarelo}" value="{stats>/amarelo}" displayedValue="{stats>/amarelo}" color="Critical"/>
+									<micro:InteractiveDonutChartSegment label="{i18n>statVerde}" value="{stats>/verde}" displayedValue="{stats>/verde}" color="Good"/>
+								</micro:segments>
+							</micro:InteractiveDonutChart>
+						</VBox>
 					</Panel>
 
-					<Panel headerText="{i18n>chartTopRules}" class="sapUiSmallMarginBottom" width="28rem">
-						<micro:ComparisonMicroChart minValue="0" maxValue="{stats>/analisados}" class="sapUiSmallMargin"
+					<Panel headerText="{i18n>chartTopRules}" class="sapUiSmallMarginBottom is360TopRules" width="38rem">
+						<micro:ComparisonMicroChart minValue="0" maxValue="{stats>/analisados}" width="36rem" class="sapUiSmallMargin"
 							data="{stats>/topRules}">
 							<micro:data>
-								<micro:ComparisonMicroChartData value="{stats>count}" title="{stats>ruleId}" displayValue="{stats>displayValue}" color="{stats>color}"/>
+								<micro:ComparisonMicroChartData
+									value="{stats>count}"
+									title="{path: 'stats>ruleId', formatter: 'formatter.ruleBarTitle'}"
+									displayValue="{stats>displayValue}"
+									color="{stats>color}"
+									press=".onRuleBarPress"/>
 							</micro:data>
 						</micro:ComparisonMicroChart>
 					</Panel>

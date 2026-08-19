@@ -1,0 +1,83 @@
+/* IS360 semantic color tokens (dark palette). Use only where a UI5 control
+   has no built-in ValueState/IndicationColor equivalent to bind to. */
+:root {
+	--is360-negative: #FF6B6E;
+	--is360-critical: #F5A623;
+	--is360-positive: #5FD08A;
+	--is360-information: #5CA8FF;
+	--is360-neutral: #94A3B0;
+}
+
+.is360-tile-critical {
+	border-left: 4px solid var(--is360-negative);
+	border-radius: 0.25rem;
+}
+
+.is360DonutTotal {
+	font-size: 1.5rem;
+	font-weight: 700;
+}
+
+.is360DonutCriticalPct {
+	color: var(--is360-negative);
+	font-weight: 600;
+	font-size: 0.875rem;
+}
+
+/* The Horizon theme renders InteractiveDonutChart segments with a muted
+   categorical palette (+ a small semantic marker) instead of the actual
+   ValueState hue. Segments are declared in a fixed order (critico,
+   atencao, aderente=index 0,1,2), so force the mandated semantic hex
+   directly onto the ring and legend swatches by that stable index. */
+.is360Donut path.sapSuiteIDCChartSegment[data-sap-ui-idc-selection-index="0"] {
+	fill: var(--is360-negative);
+}
+.is360Donut .sapSuiteIDCLegendSegment[data-sap-ui-idc-selection-index="0"] .sapSuiteIDCLegendMarker {
+	background-color: var(--is360-negative) !important;
+}
+
+.is360Donut path.sapSuiteIDCChartSegment[data-sap-ui-idc-selection-index="1"] {
+	fill: var(--is360-critical);
+}
+.is360Donut .sapSuiteIDCLegendSegment[data-sap-ui-idc-selection-index="1"] .sapSuiteIDCLegendMarker {
+	background-color: var(--is360-critical) !important;
+}
+
+.is360Donut path.sapSuiteIDCChartSegment[data-sap-ui-idc-selection-index="2"] {
+	fill: var(--is360-positive);
+}
+.is360Donut .sapSuiteIDCLegendSegment[data-sap-ui-idc-selection-index="2"] .sapSuiteIDCLegendMarker {
+	background-color: var(--is360-positive) !important;
+}
+
+.is360-summary-counters {
+	gap: 1.5rem;
+}
+
+.is360-summary-counter {
+	min-width: 4rem;
+	text-align: center;
+}
+
+.is360-chip {
+	border: 1px solid var(--is360-information);
+	border-radius: 999px;
+	padding: 0.125rem 0.25rem 0.125rem 0.75rem;
+	color: var(--is360-information);
+}
+
+.is360-chip-remove.sapMBtn {
+	width: 1.5rem;
+	min-width: 1.5rem;
+	height: 1.5rem;
+}
+
+/* Severidade e apenas um rotulo neutro para ordenacao: nunca colore por
+   si so, so o status (passou/falhou) carrega cor semantica. */
+.is360-severity-badge .sapMObjStatusText {
+	display: inline-block;
+	border: 1px solid var(--is360-neutral);
+	border-radius: 999px;
+	padding: 0.0625rem 0.5rem;
+	color: var(--is360-neutral);
+}
