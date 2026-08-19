@@ -13,21 +13,6 @@
 	border-radius: 0.25rem;
 }
 
-.is360DonutWrapper {
-	position: relative;
-	display: flex;
-	justify-content: center;
-}
-
-.is360DonutCenter {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	pointer-events: none;
-	text-align: center;
-}
-
 .is360DonutTotal {
 	font-size: 1.5rem;
 	font-weight: 700;
@@ -36,7 +21,33 @@
 .is360DonutCriticalPct {
 	color: var(--is360-negative);
 	font-weight: 600;
-	font-size: 0.75rem;
+	font-size: 0.875rem;
+}
+
+/* The Horizon theme renders InteractiveDonutChart segments with a muted
+   categorical palette (+ a small semantic marker) instead of the actual
+   ValueState hue. Segments are declared in a fixed order (critico,
+   atencao, aderente=index 0,1,2), so force the mandated semantic hex
+   directly onto the ring and legend swatches by that stable index. */
+.is360Donut path.sapSuiteIDCChartSegment[data-sap-ui-idc-selection-index="0"] {
+	fill: var(--is360-negative);
+}
+.is360Donut .sapSuiteIDCLegendSegment[data-sap-ui-idc-selection-index="0"] .sapSuiteIDCLegendMarker {
+	background-color: var(--is360-negative) !important;
+}
+
+.is360Donut path.sapSuiteIDCChartSegment[data-sap-ui-idc-selection-index="1"] {
+	fill: var(--is360-critical);
+}
+.is360Donut .sapSuiteIDCLegendSegment[data-sap-ui-idc-selection-index="1"] .sapSuiteIDCLegendMarker {
+	background-color: var(--is360-critical) !important;
+}
+
+.is360Donut path.sapSuiteIDCChartSegment[data-sap-ui-idc-selection-index="2"] {
+	fill: var(--is360-positive);
+}
+.is360Donut .sapSuiteIDCLegendSegment[data-sap-ui-idc-selection-index="2"] .sapSuiteIDCLegendMarker {
+	background-color: var(--is360-positive) !important;
 }
 
 /* Severidade e apenas um rotulo neutro para ordenacao: nunca colore por
