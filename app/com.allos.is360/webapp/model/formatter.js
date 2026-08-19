@@ -1,7 +1,7 @@
 sap.ui.define(function () {
 	"use strict";
 
-	const BAND_LABELS = { verde: "Aderente", amarelo: "Atencao", vermelho: "Critico" };
+	const BAND_LABELS = { verde: "Aderente", amarelo: "Atenção", vermelho: "Crítico" };
 	const BAND_STATES = { verde: "Success", amarelo: "Warning", vermelho: "Error" };
 	const BAND_VALUE_COLORS = { verde: "Good", amarelo: "Critical", vermelho: "Error" };
 	const BAND_ICONS = { verde: "sap-icon://status-positive", amarelo: "sap-icon://status-critical", vermelho: "sap-icon://status-negative" };
@@ -9,7 +9,7 @@ sap.ui.define(function () {
 
 	return {
 		bandText: function (sBand) {
-			return BAND_LABELS[sBand] || "Nao analisado";
+			return BAND_LABELS[sBand] || "Não analisado";
 		},
 
 		bandState: function (sBand) {

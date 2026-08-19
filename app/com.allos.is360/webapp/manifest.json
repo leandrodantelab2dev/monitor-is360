@@ -71,7 +71,8 @@
 				"type": "sap.ui.model.resource.ResourceModel",
 				"settings": {
 					"bundleName": "com.allos.is360.i18n.i18n",
-					"async": true
+					"async": true,
+					"fallbackLocale": ""
 				}
 			},
 			"": {
