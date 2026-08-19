@@ -57,27 +57,55 @@
 				</HBox>
 			</Panel>
 
-			<Table id="resultsTable" class="sapUiResponsiveMargin" noDataText="{i18n>noResultsText}"
-				items="{path: 'results', parameters: {$select: 'ID,ruleId,categoria,severidade,passed,detalhe'}, sorter: {path: 'categoria', group: true}, groupHeaderFactory: '.createGroupHeader'}">
-				<columns>
-					<Column width="3rem"/>
-					<Column><Text text="{i18n>colRule}"/></Column>
-					<Column><Text text="{i18n>colSeverity}"/></Column>
-					<Column><Text text="{i18n>colDetail}"/></Column>
-				</columns>
-				<items>
-					<ColumnListItem>
-						<cells>
-							<core:Icon
-								src="{path: 'passed', formatter: 'formatter.passedIcon', targetType: 'any'}"
-								color="{path: 'passed', formatter: 'formatter.passedIconColor', targetType: 'any'}"/>
-							<Text text="{ruleId}"/>
-							<ObjectStatus text="{path: 'severidade', formatter: 'formatter.severityText'}" class="is360-severity-badge"/>
-							<Text text="{detalhe}"/>
-						</cells>
-					</ColumnListItem>
-				</items>
-			</Table>
+			<VBox class="sapUiResponsiveMargin">
+				<Toolbar>
+					<Title text="{i18n>fixFirstTitle}" level="H3"/>
+					<ToolbarSpacer/>
+					<Label text="{i18n>toggleShowOnlyFailed}" labelFor="onlyFailedSwitch" class="sapUiTinyMarginEnd"/>
+					<Switch id="onlyFailedSwitch" state="{rules>/showOnlyFailed}" change=".onToggleShowOnlyFailed"/>
+				</Toolbar>
+
+				<Table id="failedTable" noDataText="{i18n>noFailedText}" items="{rules>/failed}">
+					<columns>
+						<Column width="3rem"/>
+						<Column><Text text="{i18n>colRule}"/></Column>
+						<Column><Text text="{i18n>colSeverity}"/></Column>
+						<Column><Text text="{i18n>colDetail}"/></Column>
+					</columns>
+					<items>
+						<ColumnListItem>
+							<cells>
+								<core:Icon src="sap-icon://sys-cancel-2" color="Negative"/>
+								<Text text="{rules>ruleId}"/>
+								<ObjectStatus text="{path: 'rules>severidade', formatter: 'formatter.severityText'}" class="is360-severity-badge"/>
+								<Text text="{rules>detalhe}"/>
+							</cells>
+						</ColumnListItem>
+					</items>
+				</Table>
+
+				<Panel expandable="true" expanded="false" visible="{= !${rules>/showOnlyFailed} }"
+					headerText="{rules>/passedCollapsedLabel}" class="sapUiTinyMarginTop">
+					<Table id="passedTable" noDataText="{i18n>noResultsText}" items="{rules>/passed}">
+						<columns>
+							<Column width="3rem"/>
+							<Column><Text text="{i18n>colRule}"/></Column>
+							<Column><Text text="{i18n>colSeverity}"/></Column>
+							<Column><Text text="{i18n>colDetail}"/></Column>
+						</columns>
+						<items>
+							<ColumnListItem>
+								<cells>
+									<core:Icon src="sap-icon://sys-enter-2" color="Positive"/>
+									<Text text="{rules>ruleId}"/>
+									<ObjectStatus text="{path: 'rules>severidade', formatter: 'formatter.severityText'}" class="is360-severity-badge"/>
+									<Text text="{rules>detalhe}"/>
+								</cells>
+							</ColumnListItem>
+						</items>
+					</Table>
+				</Panel>
+			</VBox>
 		</content>
 	</Page>
 </mvc:View>
