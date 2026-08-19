@@ -28,19 +28,19 @@
 
 				<HBox wrap="Wrap" class="sapUiSmallMarginBottom sapUiSmallMarginBeginEnd">
 					<GenericTile header="{i18n>statTotal}" frameType="TwoByOne" press=".onViewIflows" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">
-						<TileContent>
+						<TileContent unit="{i18n>unitIflows}">
 							<NumericContent value="{stats>/total}" icon="sap-icon://process" withMargin="false"/>
 						</TileContent>
 					</GenericTile>
 
 					<GenericTile header="{i18n>statAvgScore}" frameType="TwoByOne" press=".onViewIflows" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">
-						<TileContent>
+						<TileContent unit="{i18n>unitScore}" footer="{stats>/scoreMetaText}" footerColor="{stats>/scoreMetaColor}">
 							<NumericContent value="{stats>/avgScore}" valueColor="{stats>/avgScoreColor}" withMargin="false"/>
 						</TileContent>
 					</GenericTile>
 
 					<GenericTile header="{i18n>statVerde}" frameType="TwoByOne" press=".onViewIflows" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">
-						<TileContent>
+						<TileContent unit="{i18n>unitIflows}">
 							<NumericContent
 								value="{stats>/verde}"
 								valueColor="{path: 'stats>/verde', formatter: 'formatter.compliantColor'}"
@@ -50,13 +50,13 @@
 					</GenericTile>
 
 					<GenericTile header="{i18n>statAmarelo}" frameType="TwoByOne" press=".onViewIflows" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">
-						<TileContent>
+						<TileContent unit="{i18n>unitIflows}">
 							<NumericContent value="{stats>/amarelo}" valueColor="Critical" icon="sap-icon://status-critical" withMargin="false"/>
 						</TileContent>
 					</GenericTile>
 
 					<GenericTile header="{i18n>statVermelho}" frameType="TwoByOne" press=".onViewIflows" class="is360-tile-critical sapUiTinyMarginEnd sapUiTinyMarginBottom">
-						<TileContent>
+						<TileContent unit="{i18n>unitIflows}">
 							<NumericContent value="{stats>/vermelho}" valueColor="Error" icon="sap-icon://status-negative" withMargin="false"/>
 						</TileContent>
 					</GenericTile>
