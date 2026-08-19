@@ -80,11 +80,16 @@
 						</VBox>
 					</Panel>
 
-					<Panel headerText="{i18n>chartTopRules}" class="sapUiSmallMarginBottom" width="28rem">
-						<micro:ComparisonMicroChart minValue="0" maxValue="{stats>/analisados}" class="sapUiSmallMargin"
+					<Panel headerText="{i18n>chartTopRules}" class="sapUiSmallMarginBottom is360TopRules" width="38rem">
+						<micro:ComparisonMicroChart minValue="0" maxValue="{stats>/analisados}" width="36rem" class="sapUiSmallMargin"
 							data="{stats>/topRules}">
 							<micro:data>
-								<micro:ComparisonMicroChartData value="{stats>count}" title="{stats>ruleId}" displayValue="{stats>displayValue}" color="{stats>color}"/>
+								<micro:ComparisonMicroChartData
+									value="{stats>count}"
+									title="{path: 'stats>ruleId', formatter: 'formatter.ruleBarTitle'}"
+									displayValue="{stats>displayValue}"
+									color="{stats>color}"
+									press=".onRuleBarPress"/>
 							</micro:data>
 						</micro:ComparisonMicroChart>
 					</Panel>

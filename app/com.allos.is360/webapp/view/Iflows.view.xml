@@ -40,6 +40,10 @@
 					<Text text="{filters>/scoreChipText}"/>
 					<Button icon="sap-icon://decline" type="Transparent" press=".onClearScoreFilter" class="is360-chip-remove"/>
 				</HBox>
+				<HBox alignItems="Center" class="is360-chip sapUiTinyMarginEnd" visible="{= !!${filters>/ruleChipText} }">
+					<Text text="{filters>/ruleChipText}"/>
+					<Button icon="sap-icon://decline" type="Transparent" press=".onClearRuleFilter" class="is360-chip-remove"/>
+				</HBox>
 			</HBox>
 
 			<IconTabBar id="iconTabBar" select=".onTabSelect" selectedKey="all" expandable="false">

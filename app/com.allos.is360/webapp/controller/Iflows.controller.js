@@ -13,14 +13,15 @@ sap.ui.define([
 			this.setModel(new JSONModel({ all: 0, verde: 0, amarelo: 0, vermelho: 0 }), "counts");
 			this.setModel(new JSONModel({
 				packages: [], scoreRange: [0, 100],
-				packageChipText: "", scoreChipText: ""
+				packageChipText: "", scoreChipText: "", ruleChipText: ""
 			}), "filters");
 			this._sBand = "all";
 			this._sQuery = "";
 			this._sPackage = "";
+			this._sRuleId = "";
 			this._aScoreRange = [0, 100];
 			this._bSortDesc = true;
-			this.getRouter().getRoute("iflows").attachPatternMatched(this._loadCounts, this);
+			this.getRouter().getRoute("iflows").attachPatternMatched(this._onRouteMatched, this);
 		},
 
 		onOpenIflow: function (oEvent) {
@@ -75,14 +76,49 @@ sap.ui.define([
 			this._applyFilters();
 		},
 
+		onClearRuleFilter: function () {
+			this._setRuleFilter("");
+		},
+
 		onClearFilters: function () {
 			this._sPackage = "";
 			this._aScoreRange = [0, 100];
 			const oFiltersModel = this.getModel("filters");
 			oFiltersModel.setProperty("/selectedPackage", "");
 			oFiltersModel.setProperty("/scoreRange", [0, 100]);
-			this._updateChips();
-			this._applyFilters();
+			this._setRuleFilter("");
+		},
+
+		_onRouteMatched: function (oEvent) {
+			const oQuery = oEvent.getParameter("arguments")["?query"] || {};
+			this._setRuleFilter(oQuery.rule || "");
+			this._loadCounts();
+		},
+
+		// A associacao "results" (Iflow -> RuleResult) e definida via "on" no schema
+		// (backlink, nao gerenciada), e o filtro OData V4 "any()" sobre esse tipo de
+		// associacao nao e traduzido corretamente pelo CAP nessa versao: o servidor
+		// aceita a query mas devolve a lista inteira, sem filtrar (confirmado testando
+		// direto contra o servico). Como alternativa que de fato funciona, buscamos os
+		// IDs dos iFlows com a regra falhando via RuleResults (essa entidade filtra
+		// corretamente) e filtramos Iflows por ID.
+		_setRuleFilter: function (sRuleId) {
+			this._sRuleId = sRuleId;
+			if (!sRuleId) {
+				this._aRuleIflowIds = null;
+				this._updateChips();
+				this._applyFilters();
+				return;
+			}
+			const oBinding = this.getModel().bindList("/RuleResults", undefined, undefined, [
+				new Filter("ruleId", FilterOperator.EQ, sRuleId),
+				new Filter("passed", FilterOperator.EQ, false)
+			]);
+			oBinding.requestContexts(0, 5000).then(aContexts => {
+				this._aRuleIflowIds = aContexts.map(oContext => oContext.getObject().iflow_ID);
+				this._updateChips();
+				this._applyFilters();
+			});
 		},
 
 		_updateChips: function () {
@@ -91,6 +127,7 @@ sap.ui.define([
 				oFiltersModel.setProperty("/packageChipText", this._sPackage ? oBundle.getText("chipPackage", [this._sPackage]) : "");
 				const [iMin, iMax] = this._aScoreRange;
 				oFiltersModel.setProperty("/scoreChipText", (iMin > 0 || iMax < 100) ? oBundle.getText("chipScore", [iMin, iMax]) : "");
+				oFiltersModel.setProperty("/ruleChipText", this._sRuleId ? oBundle.getText("chipRule", [this._sRuleId]) : "");
 			});
 		},
 
@@ -101,6 +138,13 @@ sap.ui.define([
 			if (this._sPackage) aFilters.push(new Filter("package/name", FilterOperator.EQ, this._sPackage));
 			const [iMin, iMax] = this._aScoreRange;
 			if (iMin > 0 || iMax < 100) aFilters.push(new Filter("score", FilterOperator.BT, iMin, iMax));
+			if (this._sRuleId) {
+				const aIds = this._aRuleIflowIds || [];
+				aFilters.push(new Filter({
+					filters: aIds.length ? aIds.map(sId => new Filter("ID", FilterOperator.EQ, sId)) : [new Filter("ID", FilterOperator.EQ, "")],
+					and: false
+				}));
+			}
 			this.byId("iflowsTable").getBinding("items").filter(aFilters);
 		},
 

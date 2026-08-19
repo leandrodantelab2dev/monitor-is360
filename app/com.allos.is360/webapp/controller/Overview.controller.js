@@ -36,6 +36,11 @@ sap.ui.define([
 			this.navTo("iflows");
 		},
 
+		onRuleBarPress: function (oEvent) {
+			const sRuleId = oEvent.getSource().getBindingContext("stats").getProperty("ruleId");
+			this.navTo("iflows", { "?query": { rule: sRuleId } });
+		},
+
 		onSync: function () {
 			this._callAction("/syncInventory(...)", {}, (oResult, oBundle) => {
 				MessageToast.show(oBundle.getText("msgSyncSuccess", [oResult.packages, oResult.iflows]));
