@@ -68,8 +68,8 @@
 				<Table id="failedTable" noDataText="{i18n>noFailedText}" items="{rules>/failed}">
 					<columns>
 						<Column width="3rem"/>
-						<Column><Text text="{i18n>colRule}"/></Column>
-						<Column><Text text="{i18n>colSeverity}"/></Column>
+						<Column width="6rem"><Text text="{i18n>colRule}"/></Column>
+						<Column width="6.5rem"><Text text="{i18n>colSeverity}"/></Column>
 						<Column><Text text="{i18n>colDetail}"/></Column>
 					</columns>
 					<items>
