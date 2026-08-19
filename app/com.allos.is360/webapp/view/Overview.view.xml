@@ -3,7 +3,11 @@
 	displayBlock="true"
 	xmlns="sap.m"
 	xmlns:mvc="sap.ui.core.mvc"
-	xmlns:micro="sap.suite.ui.microchart">
+	xmlns:core="sap.ui.core"
+	xmlns:micro="sap.suite.ui.microchart"
+	core:require="{
+		formatter: 'com/allos/is360/model/formatter'
+	}">
 
 	<Page id="overviewPage" title="{i18n>appTitle}">
 		<headerContent>
@@ -37,7 +41,11 @@
 
 					<GenericTile header="{i18n>statVerde}" frameType="TwoByOne" press=".onViewIflows" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">
 						<TileContent>
-							<NumericContent value="{stats>/verde}" valueColor="Good" icon="sap-icon://status-positive" withMargin="false"/>
+							<NumericContent
+								value="{stats>/verde}"
+								valueColor="{path: 'stats>/verde', formatter: 'formatter.compliantColor'}"
+								icon="{path: 'stats>/verde', formatter: 'formatter.compliantIcon'}"
+								withMargin="false"/>
 						</TileContent>
 					</GenericTile>
 
@@ -47,7 +55,7 @@
 						</TileContent>
 					</GenericTile>
 
-					<GenericTile header="{i18n>statVermelho}" frameType="TwoByOne" press=".onViewIflows" class="sapUiTinyMarginEnd sapUiTinyMarginBottom">
+					<GenericTile header="{i18n>statVermelho}" frameType="TwoByOne" press=".onViewIflows" class="is360-tile-critical sapUiTinyMarginEnd sapUiTinyMarginBottom">
 						<TileContent>
 							<NumericContent value="{stats>/vermelho}" valueColor="Error" icon="sap-icon://status-negative" withMargin="false"/>
 						</TileContent>

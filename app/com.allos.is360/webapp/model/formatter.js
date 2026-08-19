@@ -37,6 +37,14 @@ sap.ui.define(function () {
 
 		severityState: function (sSeveridade) {
 			return SEVERITY_STATES[sSeveridade] || "None";
+		},
+
+		compliantIcon: function (iCount) {
+			return iCount > 0 ? "sap-icon://status-positive" : "";
+		},
+
+		compliantColor: function (iCount) {
+			return iCount > 0 ? "Good" : "Neutral";
 		}
 	};
 });
