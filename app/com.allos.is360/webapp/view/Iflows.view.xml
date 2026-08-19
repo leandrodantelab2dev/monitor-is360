@@ -18,6 +18,30 @@
 			</Toolbar>
 		</subHeader>
 		<content>
+			<Toolbar class="sapUiTinyMarginBottom sapUiTinyMarginBeginEnd">
+				<Label text="{i18n>filterPackageLabel}" labelFor="packageFilter" class="sapUiTinyMarginEnd"/>
+				<Select id="packageFilter" width="12rem" items="{filters>/packages}" selectedKey="{filters>/selectedPackage}"
+					change=".onPackageFilterChange" class="sapUiSmallMarginEnd">
+					<core:Item key="{filters>key}" text="{filters>text}"/>
+				</Select>
+				<Label text="{i18n>filterScoreLabel}" class="sapUiTinyMarginEnd"/>
+				<RangeSlider id="scoreRangeFilter" width="10rem" min="0" max="100" step="1"
+					range="{filters>/scoreRange}" change=".onScoreRangeChange" class="sapUiSmallMarginEnd"/>
+				<ToolbarSpacer/>
+				<Button text="{i18n>btnClearFilters}" press=".onClearFilters" type="Transparent"/>
+			</Toolbar>
+
+			<HBox wrap="Wrap" class="sapUiTinyMarginBottom sapUiTinyMarginBeginEnd">
+				<HBox alignItems="Center" class="is360-chip sapUiTinyMarginEnd" visible="{= !!${filters>/packageChipText} }">
+					<Text text="{filters>/packageChipText}"/>
+					<Button icon="sap-icon://decline" type="Transparent" press=".onClearPackageFilter" class="is360-chip-remove"/>
+				</HBox>
+				<HBox alignItems="Center" class="is360-chip sapUiTinyMarginEnd" visible="{= !!${filters>/scoreChipText} }">
+					<Text text="{filters>/scoreChipText}"/>
+					<Button icon="sap-icon://decline" type="Transparent" press=".onClearScoreFilter" class="is360-chip-remove"/>
+				</HBox>
+			</HBox>
+
 			<IconTabBar id="iconTabBar" select=".onTabSelect" selectedKey="all" expandable="false">
 				<items>
 					<IconTabFilter key="all" text="{i18n>tabAll}" count="{counts>/all}"/>
@@ -30,7 +54,7 @@
 						<columns>
 							<Column><Text text="{i18n>colName}"/></Column>
 							<Column><Text text="{i18n>colPackage}"/></Column>
-							<Column hAlign="End"><Text text="{i18n>colScore}"/></Column>
+							<Column hAlign="End" width="8rem"><Text text="{i18n>colScore}"/></Column>
 							<Column><Text text="{i18n>colBand}"/></Column>
 						</columns>
 						<items>
@@ -38,12 +62,21 @@
 								<cells>
 									<Text text="{name}"/>
 									<Text text="{package/name}"/>
-									<ObjectNumber
-										number="{score}"
-										state="{path: 'band', formatter: 'formatter.bandState'}"/>
+									<VBox alignItems="End">
+										<ObjectNumber
+											number="{score}"
+											state="{path: 'band', formatter: 'formatter.bandState'}"/>
+										<ProgressIndicator
+											percentValue="{score}"
+											state="{path: 'band', formatter: 'formatter.bandState'}"
+											showValue="false"
+											width="4rem"
+											height="0.375rem"/>
+									</VBox>
 									<ObjectStatus
 										text="{path: 'band', formatter: 'formatter.bandText'}"
-										state="{path: 'band', formatter: 'formatter.bandState'}"/>
+										state="{path: 'band', formatter: 'formatter.bandState'}"
+										icon="{path: 'band', formatter: 'formatter.bandIcon'}"/>
 								</cells>
 							</ColumnListItem>
 						</items>

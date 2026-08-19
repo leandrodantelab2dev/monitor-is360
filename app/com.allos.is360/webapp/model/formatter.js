@@ -4,6 +4,7 @@ sap.ui.define(function () {
 	const BAND_LABELS = { verde: "Aderente", amarelo: "Atencao", vermelho: "Critico" };
 	const BAND_STATES = { verde: "Success", amarelo: "Warning", vermelho: "Error" };
 	const BAND_VALUE_COLORS = { verde: "Good", amarelo: "Critical", vermelho: "Error" };
+	const BAND_ICONS = { verde: "sap-icon://status-positive", amarelo: "sap-icon://status-critical", vermelho: "sap-icon://status-negative" };
 	const SEVERITY_LABELS = { alta: "Alta", media: "Média", baixa: "Baixa" };
 
 	return {
@@ -19,12 +20,8 @@ sap.ui.define(function () {
 			return BAND_VALUE_COLORS[sBand] || "Neutral";
 		},
 
-		passedText: function (bPassed) {
-			return bPassed ? "Passou" : "Falhou";
-		},
-
-		passedState: function (bPassed) {
-			return bPassed ? "Success" : "Error";
+		bandIcon: function (sBand) {
+			return BAND_ICONS[sBand] || "sap-icon://question-mark";
 		},
 
 		passedIcon: function (bPassed) {

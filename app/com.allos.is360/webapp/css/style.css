@@ -59,6 +59,19 @@
 	text-align: center;
 }
 
+.is360-chip {
+	border: 1px solid var(--is360-information);
+	border-radius: 999px;
+	padding: 0.125rem 0.25rem 0.125rem 0.75rem;
+	color: var(--is360-information);
+}
+
+.is360-chip-remove.sapMBtn {
+	width: 1.5rem;
+	min-width: 1.5rem;
+	height: 1.5rem;
+}
+
 /* Severidade e apenas um rotulo neutro para ordenacao: nunca colore por
    si so, so o status (passou/falhou) carrega cor semantica. */
 .is360-severity-badge .sapMObjStatusText {
