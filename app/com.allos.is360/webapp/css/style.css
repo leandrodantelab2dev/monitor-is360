@@ -50,6 +50,15 @@
 	background-color: var(--is360-positive) !important;
 }
 
+.is360-summary-counters {
+	gap: 1.5rem;
+}
+
+.is360-summary-counter {
+	min-width: 4rem;
+	text-align: center;
+}
+
 /* Severidade e apenas um rotulo neutro para ordenacao: nunca colore por
    si so, so o status (passou/falhou) carrega cor semantica. */
 .is360-severity-badge .sapMObjStatusText {
