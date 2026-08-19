@@ -4,7 +4,7 @@ sap.ui.define(function () {
 	const BAND_LABELS = { verde: "Aderente", amarelo: "Atencao", vermelho: "Critico" };
 	const BAND_STATES = { verde: "Success", amarelo: "Warning", vermelho: "Error" };
 	const BAND_VALUE_COLORS = { verde: "Good", amarelo: "Critical", vermelho: "Error" };
-	const SEVERITY_STATES = { alta: "Error", media: "Warning", baixa: "None" };
+	const SEVERITY_LABELS = { alta: "Alta", media: "Média", baixa: "Baixa" };
 
 	return {
 		bandText: function (sBand) {
@@ -35,8 +35,8 @@ sap.ui.define(function () {
 			return bPassed ? "Positive" : "Negative";
 		},
 
-		severityState: function (sSeveridade) {
-			return SEVERITY_STATES[sSeveridade] || "None";
+		severityText: function (sSeveridade) {
+			return SEVERITY_LABELS[sSeveridade] || sSeveridade;
 		},
 
 		compliantIcon: function (iCount) {

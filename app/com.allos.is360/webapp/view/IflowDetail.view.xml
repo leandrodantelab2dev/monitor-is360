@@ -72,7 +72,7 @@
 								src="{path: 'passed', formatter: 'formatter.passedIcon', targetType: 'any'}"
 								color="{path: 'passed', formatter: 'formatter.passedIconColor', targetType: 'any'}"/>
 							<Text text="{ruleId}"/>
-							<ObjectStatus text="{severidade}" state="{path: 'severidade', formatter: 'formatter.severityState'}"/>
+							<ObjectStatus text="{path: 'severidade', formatter: 'formatter.severityText'}" class="is360-severity-badge"/>
 							<Text text="{detalhe}"/>
 						</cells>
 					</ColumnListItem>
