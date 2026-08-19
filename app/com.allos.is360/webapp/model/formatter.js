@@ -32,7 +32,7 @@ sap.ui.define(function () {
 		},
 
 		passedIconColor: function (bPassed) {
-			return bPassed ? "#107e3e" : "#bb0000";
+			return bPassed ? "Positive" : "Negative";
 		},
 
 		severityState: function (sSeveridade) {

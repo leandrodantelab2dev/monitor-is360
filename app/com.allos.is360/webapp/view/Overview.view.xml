@@ -56,13 +56,20 @@
 
 				<HBox wrap="Wrap">
 					<Panel headerText="{i18n>chartDistribution}" class="sapUiTinyMarginEnd sapUiSmallMarginBottom" width="22rem">
-						<micro:InteractiveDonutChart class="sapUiSmallMargin">
-							<micro:segments>
-								<micro:InteractiveDonutChartSegment label="{i18n>statVerde}" value="{stats>/verde}" displayedValue="{stats>/verde}" color="Good"/>
-								<micro:InteractiveDonutChartSegment label="{i18n>statAmarelo}" value="{stats>/amarelo}" displayedValue="{stats>/amarelo}" color="Critical"/>
-								<micro:InteractiveDonutChartSegment label="{i18n>statVermelho}" value="{stats>/vermelho}" displayedValue="{stats>/vermelho}" color="Error"/>
-							</micro:segments>
-						</micro:InteractiveDonutChart>
+						<VBox class="is360DonutWrapper">
+							<micro:InteractiveDonutChart class="sapUiSmallMargin">
+								<micro:segments>
+									<micro:InteractiveDonutChartSegment label="{i18n>statVermelho}" value="{stats>/vermelho}" displayedValue="{stats>/vermelho}" color="Error"/>
+									<micro:InteractiveDonutChartSegment label="{i18n>statAmarelo}" value="{stats>/amarelo}" displayedValue="{stats>/amarelo}" color="Critical"/>
+									<micro:InteractiveDonutChartSegment label="{i18n>statVerde}" value="{stats>/verde}" displayedValue="{stats>/verde}" color="Good"/>
+								</micro:segments>
+							</micro:InteractiveDonutChart>
+							<VBox class="is360DonutCenter" alignItems="Center">
+								<ObjectNumber number="{stats>/totalAnalisados}" class="is360DonutTotal"/>
+								<Text text="{i18n>chartDistributionTotalLabel}"/>
+								<Text text="{stats>/criticalPercentText}" class="is360DonutCriticalPct"/>
+							</VBox>
+						</VBox>
 					</Panel>
 
 					<Panel headerText="{i18n>chartTopRules}" class="sapUiSmallMarginBottom" width="28rem">

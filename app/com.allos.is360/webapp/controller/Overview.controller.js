@@ -21,6 +21,7 @@ sap.ui.define([
 			this.setModel(new JSONModel({
 				total: 0, avgScore: "0.0", avgScoreColor: "Neutral",
 				verde: 0, amarelo: 0, vermelho: 0, analisados: 1,
+				totalAnalisados: 0, criticalPercentText: "",
 				topRules: [], lastSyncText: ""
 			}), "stats");
 			this.getRouter().getRoute("overview").attachPatternMatched(this._loadStats, this);
@@ -89,11 +90,15 @@ sap.ui.define([
 					.slice(0, 5)
 					.map(oRule => ({ ...oRule, displayValue: String(oRule.count), color: SEVERITY_COLOR[oRule.severidade] || "Neutral" }));
 
+				const iCriticalPercent = aAnalyzed.length ? Math.round((oCounts.vermelho / aAnalyzed.length) * 100) : 0;
+
 				this.getModel("stats").setData({
 					total: aIflows.length,
 					avgScore: fAvg.toFixed(1),
 					avgScoreColor: aAnalyzed.length ? scoreColor(fAvg) : "Neutral",
 					analisados: aAnalyzed.length || 1,
+					totalAnalisados: aAnalyzed.length,
+					criticalPercentText: oBundle.getText("donutCriticalPercentLabel", [iCriticalPercent]),
 					topRules: aTopRules,
 					lastSyncText: oLastSync ? oBundle.getText("lastSyncLabel", [new Date(oLastSync).toLocaleString()]) : oBundle.getText("neverSynced"),
 					...oCounts

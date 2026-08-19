@@ -1,0 +1,35 @@
+/* IS360 semantic color tokens (dark palette). Use only where a UI5 control
+   has no built-in ValueState/IndicationColor equivalent to bind to. */
+:root {
+	--is360-negative: #FF6B6E;
+	--is360-critical: #F5A623;
+	--is360-positive: #5FD08A;
+	--is360-information: #5CA8FF;
+	--is360-neutral: #94A3B0;
+}
+
+.is360DonutWrapper {
+	position: relative;
+	display: flex;
+	justify-content: center;
+}
+
+.is360DonutCenter {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	pointer-events: none;
+	text-align: center;
+}
+
+.is360DonutTotal {
+	font-size: 1.5rem;
+	font-weight: 700;
+}
+
+.is360DonutCriticalPct {
+	color: var(--is360-negative);
+	font-weight: 600;
+	font-size: 0.75rem;
+}
